@@ -1,6 +1,14 @@
 {
-	"name": "query",
-	"version": "0.0.1",
+	 "name": "@sveltestack/svelte-query",
+  "homepage": "https://github.com/SvelteStack/svelte-query",
+  "private": false,
+  "version": "2.0.0-alpha.0",
+  "description": "Hooks for managing, caching and syncing asynchronous and remote data in Svelte",
+	"license": "MIT",
+	"keywords": [
+    "svelte",
+    "tanstack/query"
+  ],
 	"scripts": {
 		"dev": "vite dev",
 		"build": "svelte-kit sync && svelte-package",
