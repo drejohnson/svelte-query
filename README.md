@@ -1,64 +1,38 @@
-<img src="./docs/src/images/svelte-query-og.png" />
+# create-svelte
 
-Hooks for managing, caching and syncing asynchronous and remote data in Svelte
+Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
-## Visit [sveltequery.vercel.app](https://sveltequery.vercel.app) for docs, guides, API and more!
+## Creating a project
 
-## Quick Features
-
-- Transport/protocol/backend agnostic data fetching (REST, GraphQL, promises, whatever!)
-- Auto Caching + Refetching (stale-while-revalidate, Window Refocus, Polling/Realtime)
-- Parallel + Dependent Queries
-- Mutations + Reactive Query Refetching
-- Multi-layer Cache + Automatic Garbage Collection
-- Paginated + Cursor-based Queries
-- Load-More + Infinite Scroll Queries w/ Scroll Recovery
-- Request Cancellation
-
-
-## Contributing
-
-**PRs are welcome!**
-You noticed a bug, a possible improvement or whatever?
-Any help is always appreciated, so don't hesitate opening one!
-
-Be sure to check out the [contributing guidelines](CONTRIBUTING.md) to fasten up the merging process.
-
-**Get started (Devs)**
+If you're seeing this, you've probably already done this step. Congrats!
 
 ```bash
-git clone git@github.com:SvelteStack/svelte-query.git
-cd svelte-query
-yarn
-yarn storybook
+# create a new project in the current directory
+npm create svelte@latest
+
+# create a new project in my-app
+npm create svelte@latest my-app
 ```
 
-**Running Storybook**
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
-cd storybook
-yarn
-yarn start
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-**Running the tests**
+## Building
+
+To create a production version of your app:
 
 ```bash
-yarn test
+npm run build
 ```
 
-**Running the Docs**
+You can preview the production build with `npm run preview`.
 
-```bash
-cd docs
-yarn
-yarn build
-yarn start
-```
-http://localhost:3000
-
-**Build**
-
-```bash
-yarn build
-```
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
