@@ -1,38 +1,64 @@
-# create-svelte
+<img src="./docs/src/images/svelte-query-og.png" />
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Hooks for managing, caching and syncing asynchronous and remote data in Svelte
 
-## Creating a project
+## Visit [sveltequery.vercel.app](https://sveltequery.vercel.app) for docs, guides, API and more!
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Quick Features
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- Transport/protocol/backend agnostic data fetching (REST, GraphQL, promises, whatever!)
+- Auto Caching + Refetching (stale-while-revalidate, Window Refocus, Polling/Realtime)
+- Parallel + Dependent Queries
+- Mutations + Reactive Query Refetching
+- Multi-layer Cache + Automatic Garbage Collection
+- Paginated + Cursor-based Queries
+- Load-More + Infinite Scroll Queries w/ Scroll Recovery
+- Request Cancellation
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
 
-## Developing
+## Contributing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+**PRs are welcome!**
+You noticed a bug, a possible improvement or whatever?
+Any help is always appreciated, so don't hesitate opening one!
 
-```bash
-npm run dev
+Be sure to check out the [contributing guidelines](CONTRIBUTING.md) to fasten up the merging process.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
+**Get started (Devs)**
 
 ```bash
-npm run build
+git clone git@github.com:SvelteStack/svelte-query.git
+cd svelte-query
+yarn
+yarn storybook
 ```
 
-You can preview the production build with `npm run preview`.
+**Running Storybook**
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+```bash
+cd storybook
+yarn
+yarn start
+```
+
+**Running the tests**
+
+```bash
+yarn test
+```
+
+**Running the Docs**
+
+```bash
+cd docs
+yarn
+yarn build
+yarn start
+```
+http://localhost:3000
+
+**Build**
+
+```bash
+yarn build
+```
