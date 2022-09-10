@@ -27,13 +27,12 @@ Be sure to check out the [contributing guidelines](CONTRIBUTING.md) to fasten up
 **Get started (Devs)**
 
 ```bash
-git clone git@github.com:SvelteStack/svelte-query.git
+git clone ...
 cd svelte-query
-yarn
-yarn storybook
+npm/pnpm install
 ```
 
-**Running Storybook**
+**Running Storybook (Not Updated)**
 
 ```bash
 cd storybook
@@ -41,24 +40,35 @@ yarn
 yarn start
 ```
 
-**Running the tests**
+**Running the tests (Not Updated)**
 
 ```bash
 yarn test
 ```
 
-**Running the Docs**
+**Running the Examples**
 
 ```bash
-cd docs
-yarn
-yarn build
+npm run dev or pnpm dev
+```
+http://localhost:5173
+
+**Build Package**
+
+```bash
+npm run build or pnpm build
+```
+Package is install in package directory
+
+**Test Package Locally**
+
+Afer building package...
+```bash
+cd package
+npm pack
 yarn start
 ```
-http://localhost:3000
-
-**Build**
-
+Install generated package... 
 ```bash
-yarn build
-```
+npm/pnpm install ./from/location/sveltestack-svelte-query-2.0.0-alpha.01.tgz
+``` 
