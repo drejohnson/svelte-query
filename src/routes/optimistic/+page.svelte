@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { default as axios, AxiosError } from 'axios';
 	import { useQuery } from '$lib/query/useQuery.js';
 	import { useMutation } from '$lib/mutation/useMutation.js';
 	import { clientStore } from '$lib/queryClientProvider/store.js';
-	import IsFetching from '$lib/isFetching/IsFetching.svelte';
+	// import IsFetching from '$lib/isFetching/IsFetching.svelte';
 
 	type Todos = {
 		items: readonly {
