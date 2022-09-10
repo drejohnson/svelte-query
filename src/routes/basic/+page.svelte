@@ -1,5 +1,5 @@
 <script lang="ts">
-	import BasicQuery from '$lib/_components/BasicQuery.svelte';
+	import BasicQuery from '../_components/BasicQuery.svelte';
 </script>
 
 <section class="px-4">

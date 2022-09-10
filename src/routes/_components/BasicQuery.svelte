@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Posts from '$lib/_components/Posts.svelte';
-	import Post from '$lib/_components/Post.svelte';
+	import Posts from './Posts.svelte';
+	import Post from './Post.svelte';
 
 	let postId = -1;
 	const setPostId = (id: number) => {

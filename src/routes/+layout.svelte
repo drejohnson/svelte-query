@@ -2,7 +2,7 @@
 	import '../app.postcss';
 	import { page } from '$app/stores';
 	import QueryClientProvider from '$lib/queryClientProvider/QueryClientProvider.svelte';
-	import Nav from '$lib/_components/Nav.svelte';
+	import Nav from './_components/Nav.svelte';
 
 	$: path = $page.url.pathname.split('/')[1];
 </script>

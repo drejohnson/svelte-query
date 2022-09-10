@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LoadMore from '$lib/_components/LoadMore.svelte';
+	import LoadMore from '../_components/LoadMore.svelte';
 </script>
 
 <section class="px-4">
