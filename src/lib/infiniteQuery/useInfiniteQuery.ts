@@ -5,8 +5,8 @@ import {
 	parseQueryArgs,
 	QueryObserver
 } from '@tanstack/query-core';
-import type { UseInfiniteQueryOptions, UseInfiniteQueryResult } from '$lib/types';
-import { useBaseQuery } from '$lib/query/useBaseQuery';
+import type { UseInfiniteQueryOptions, UseInfiniteQueryResult } from '$lib/types.js';
+import { useBaseQuery } from '$lib/query/useBaseQuery.js';
 
 export function useInfiniteQuery<
 	TQueryFnData = unknown,

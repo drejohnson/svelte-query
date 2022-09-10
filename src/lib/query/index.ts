@@ -1,4 +1,4 @@
 // @ts-ignore
 export { default as Query } from '$lib/query/Query.svelte';
-export { useBaseQuery } from '$lib/query/useBaseQuery';
-export { useQuery } from '$lib/query/useQuery';
+export * from '$lib/query/useBaseQuery.js';
+export * from '$lib/query/useQuery.js';

@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
-	import type { UseQueryOptions } from '../types.js';
+	import type { UseQueryOptions } from '$lib/types.js';
 	import { useQueries } from '$lib/queries/useQueries.js';
 
 	type TQueryOptions = readonly UseQueryOptions[] | readonly [...UseQueryOptions[]];

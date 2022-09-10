@@ -1,7 +1,7 @@
 import { QueryObserver, notifyManager } from '@tanstack/query-core';
 import type { QueryKey } from '@tanstack/query-core';
-import type { UseBaseQueryOptions } from '$lib/types';
-import { useQueryClient } from '$lib/queryClientProvider/useQueryClient';
+import type { UseBaseQueryOptions } from '$lib/types.js';
+import { useQueryClient } from '$lib/queryClientProvider/useQueryClient.js';
 import { afterUpdate } from 'svelte';
 import { readable } from 'svelte/store';
 

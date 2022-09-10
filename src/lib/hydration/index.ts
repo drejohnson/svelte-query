@@ -1,1 +1,1 @@
-export { useHydrate } from '$lib/hydration/useHydrate';
+export * from '$lib/hydration/useHydrate.js';

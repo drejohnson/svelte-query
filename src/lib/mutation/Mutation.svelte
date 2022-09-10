@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { MutationFunction } from '@tanstack/query-core';
 
-	import type { UseMutationOptions, UseMutationResult } from '$lib/types.js';
+	import type { UseMutationOptions } from '$lib/types.js';
 	import { useMutation } from './useMutation.js';
 
 	export let mutationFn: MutationFunction;

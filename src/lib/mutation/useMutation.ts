@@ -8,8 +8,8 @@ import {
 	notifyManager,
 	parseMutationArgs
 } from '@tanstack/query-core';
-import type { UseMutateFunction, UseMutationOptions, UseMutationResult } from '$lib/types';
-import { useQueryClient } from '$lib/queryClientProvider/useQueryClient';
+import type { UseMutateFunction, UseMutationOptions, UseMutationResult } from '$lib/types.js';
+import { useQueryClient } from '$lib/queryClientProvider/useQueryClient.js';
 
 export function useMutation<
 	TData = unknown,

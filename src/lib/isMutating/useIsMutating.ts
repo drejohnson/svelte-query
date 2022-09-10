@@ -6,7 +6,7 @@ import {
 	parseMutationFilterArgs
 } from '@tanstack/query-core';
 import { type Readable, readable } from 'svelte/store';
-import { useQueryClient } from '$lib/queryClientProvider/useQueryClient';
+import { useQueryClient } from '$lib/queryClientProvider/useQueryClient.js';
 
 export function useIsMutating(filters?: MutationFilters): Readable<number>;
 export function useIsMutating(

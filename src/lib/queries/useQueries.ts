@@ -3,8 +3,8 @@ import type { QueryKey, QueryFunction, QueryClient } from '@tanstack/query-core'
 import { notifyManager, QueriesObserver } from '@tanstack/query-core';
 import { readable, type Readable } from 'svelte/store';
 
-import type { UseQueryOptions, UseQueryResult } from '$lib/types';
-import { useQueryClient } from '$lib/queryClientProvider/useQueryClient';
+import type { UseQueryOptions, UseQueryResult } from '$lib/types.js';
+import { useQueryClient } from '$lib/queryClientProvider/useQueryClient.js';
 import { afterUpdate } from 'svelte';
 
 // This defines the `UseQueryOptions` that are accepted in `QueriesOptions` & `GetOptions`.

@@ -4,7 +4,7 @@ import {
 	type QueryClient,
 	hydrate
 } from '@tanstack/query-core';
-import { useQueryClient } from '$lib/queryClientProvider/useQueryClient';
+import { useQueryClient } from '$lib/queryClientProvider/useQueryClient.js';
 
 export function useHydrate(state: DehydratedState, options?: HydrateOptions) {
 	const client: QueryClient = useQueryClient();

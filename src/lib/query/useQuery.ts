@@ -1,7 +1,7 @@
 import { QueryObserver, parseQueryArgs } from '@tanstack/query-core';
 import type { QueryFunction, QueryKey } from '@tanstack/query-core';
-import { useBaseQuery } from '$lib/query/useBaseQuery';
-import type { DefinedUseQueryResult, UseQueryOptions, UseQueryResult } from '$lib/types';
+import { useBaseQuery } from '$lib/query/useBaseQuery.js';
+import type { DefinedUseQueryResult, UseQueryOptions, UseQueryResult } from '$lib/types.js';
 
 export function useQuery<
 	TQueryFnData = unknown,
