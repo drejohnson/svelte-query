@@ -3,6 +3,7 @@
 	import { useQuery } from '$lib/query/useQuery.js';
 	import { useMutation } from '$lib/mutation/useMutation.js';
 	import { clientStore } from '$lib/queryClientProvider/store.js';
+	import OpimisticUpdates from '../_components/OpimisticUpdates.svelte';
 	// import IsFetching from '$lib/isFetching/IsFetching.svelte';
 
 	type Todos = {
@@ -71,6 +72,8 @@
 	happens, the previous list of items is restored and the list is again refetched from the server.
 </p>
 
+<!-- <OpimisticUpdates /> -->
+
 <form
 	on:submit={(e) => {
 		e.preventDefault();
@@ -88,6 +91,13 @@
 	</div>
 </form>
 
+{#if $todos.isLoading}
+	Loading...
+{/if}
+{#if $todos.error}
+	An error has occurred:
+	{$todos.error.message}
+{/if}
 {#if $todos.isSuccess}
 	<div class="mb-4">
 		Updated At: {new Date($todos.data.ts).toLocaleTimeString()}
@@ -97,7 +107,7 @@
 			<li>{todo.text}</li>
 		{/each}
 	</ul>
-	<div>{$todos.isFetching ? 'Background Updating...' : ' '}</div>
-	<div>{$todos.isLoading ? 'Loading...' : ' '}</div>
-	<div>{$todos.error instanceof Error ? $todos.error.message : ' '}</div>
+{/if}
+{#if $todos.isFetching}
+	<div class="text-green-600 font-bold">'Background Updating...' : ' '</div>
 {/if}
