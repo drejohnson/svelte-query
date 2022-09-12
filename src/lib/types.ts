@@ -47,17 +47,27 @@ export type UseInfiniteQueryResult<TData = unknown, TError = unknown> = Readable
 	InfiniteQueryObserverResult<TData, TError>
 >;
 
+export interface UseInfiniteQueryStoreResult<
+	TQueryFnData = unknown,
+	TError = unknown,
+	TData = TQueryFnData
+> extends Readable<UseInfiniteQueryResult<TData, TError>> {}
+
 export type UseQueryReturnType<
 	TData,
 	TError,
 	Result = QueryObserverResult<TData, TError>
 > = Readable<Result>;
 
-export type UseBaseQueryResult<TData = unknown, TError = unknown> = Readable<
-	QueryObserverResult<TData, TError>
+export type UseBaseQueryResult<TData = unknown, TError = unknown> = QueryObserverResult<
+	TData,
+	TError
 >;
 
 export type UseQueryResult<TData = unknown, TError = unknown> = UseBaseQueryResult<TData, TError>;
+
+export interface UseQueryStoreResult<TQueryFnData = unknown, TError = unknown, TData = TQueryFnData>
+	extends Readable<UseQueryResult<TData, TError>> {}
 
 export type DefinedUseBaseQueryResult<TData = unknown, TError = unknown> = Readable<
 	DefinedQueryObserverResult<TData, TError>
@@ -109,5 +119,12 @@ export type UseMutationResult<
 	TVariables = unknown,
 	TContext = unknown
 > = UseBaseMutationResult<TData, TError, TVariables, TContext>;
+
+export interface MutationStoreResult<
+	TData = unknown,
+	TError = unknown,
+	TVariables = unknown,
+	TContext = unknown
+> extends Readable<UseMutationResult<TData, TError, TVariables, TContext>> {}
 
 type Override<A, B> = { [K in keyof A]: K extends keyof B ? B[K] : A[K] };
