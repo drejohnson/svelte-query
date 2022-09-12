@@ -8,56 +8,61 @@ import {
 	notifyManager,
 	parseMutationArgs
 } from '@tanstack/query-core';
-import type { UseMutateFunction, UseMutationOptions, UseMutationResult } from '$lib/types.js';
+import type {
+	UseMutateFunction,
+	UseMutationOptions,
+	UseMutationResult,
+	MutationStoreResult
+} from '$lib/types.js';
 import { useQueryClient } from '$lib/queryClientProvider/useQueryClient.js';
 
 export function useMutation<
 	TData = unknown,
 	TError = unknown,
-	TVariables = void,
+	TVariables = unknown,
 	TContext = unknown
 >(
 	options: UseMutationOptions<TData, TError, TVariables, TContext>
-): Readable<UseMutationResult<TData, TError, TVariables, TContext>>;
+): MutationStoreResult<TData, TError, TVariables, TContext>;
 
 export function useMutation<
 	TData = unknown,
 	TError = unknown,
-	TVariables = void,
+	TVariables = unknown,
 	TContext = unknown
 >(
 	mutationFn: MutationFunction<TData, TVariables>,
 	options?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationFn'>
-): Readable<UseMutationResult<TData, TError, TVariables, TContext>>;
+): MutationStoreResult<TData, TError, TVariables, TContext>;
 
 export function useMutation<
 	TData = unknown,
 	TError = unknown,
-	TVariables = void,
+	TVariables = unknown,
 	TContext = unknown
 >(
 	mutationKey: MutationKey,
 	options?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationKey'>
-): Readable<UseMutationResult<TData, TError, TVariables, TContext>>;
+): MutationStoreResult<TData, TError, TVariables, TContext>;
 
 export function useMutation<
 	TData = unknown,
 	TError = unknown,
-	TVariables = void,
+	TVariables = unknown,
 	TContext = unknown
 >(
 	mutationKey: MutationKey,
 	mutationFn?: MutationFunction<TData, TVariables>,
 	options?: Omit<
-		UseMutationResult<TData, TError, TVariables, TContext>,
+		UseMutationOptions<TData, TError, TVariables, TContext>,
 		'mutationKey' | 'mutationFn'
 	>
-): Readable<UseMutationResult<TData, TError, TVariables, TContext>>;
+): MutationStoreResult<TData, TError, TVariables, TContext>;
 
 export function useMutation<
 	TData = unknown,
 	TError = unknown,
-	TVariables = void,
+	TVariables = unknown,
 	TContext = unknown
 >(
 	arg1:
@@ -68,7 +73,7 @@ export function useMutation<
 		| MutationFunction<TData, TVariables>
 		| UseMutationOptions<TData, TError, TVariables, TContext>,
 	arg3?: UseMutationOptions<TData, TError, TVariables, TContext>
-): Readable<UseMutationResult<TData, TError, TVariables, TContext>> {
+): MutationStoreResult<TData, TError, TVariables, TContext> {
 	const options = parseMutationArgs(arg1, arg2, arg3);
 	const queryClient = useQueryClient();
 	const observer = new MutationObserver(queryClient, options);

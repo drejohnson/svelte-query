@@ -1,7 +1,7 @@
 import { QueryObserver, parseQueryArgs } from '@tanstack/query-core';
 import type { QueryFunction, QueryKey } from '@tanstack/query-core';
 import { useBaseQuery } from '$lib/query/useBaseQuery.js';
-import type { DefinedUseQueryResult, UseQueryOptions, UseQueryResult } from '$lib/types.js';
+import type { DefinedUseQueryResult, UseQueryOptions, UseQueryStoreResult } from '$lib/types.js';
 
 export function useQuery<
 	TQueryFnData = unknown,
@@ -12,7 +12,7 @@ export function useQuery<
 	options: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'initialData'> & {
 		initialData?: () => undefined;
 	}
-): UseQueryResult<TData, TError>;
+): UseQueryStoreResult<TData, TError>;
 
 export function useQuery<
 	TQueryFnData = unknown,
@@ -30,7 +30,9 @@ export function useQuery<
 	TError = unknown,
 	TData = TQueryFnData,
 	TQueryKey extends QueryKey = QueryKey
->(options: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>): UseQueryResult<TData, TError>;
+>(
+	options: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>
+): UseQueryStoreResult<TData, TError>;
 
 export function useQuery<
 	TQueryFnData = unknown,
@@ -43,7 +45,7 @@ export function useQuery<
 		UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
 		'queryKey' | 'initialData'
 	> & { initialData?: () => undefined }
-): UseQueryResult<TData, TError>;
+): UseQueryStoreResult<TData, TError>;
 
 export function useQuery<
 	TQueryFnData = unknown,
@@ -66,7 +68,7 @@ export function useQuery<
 >(
 	queryKey: TQueryKey,
 	options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey'>
-): UseQueryResult<TData, TError>;
+): UseQueryStoreResult<TData, TError>;
 
 export function useQuery<
 	TQueryFnData = unknown,
@@ -80,7 +82,7 @@ export function useQuery<
 		UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
 		'queryKey' | 'queryFn' | 'initialData'
 	> & { initialData?: () => undefined }
-): UseQueryResult<TData, TError>;
+): UseQueryStoreResult<TData, TError>;
 
 export function useQuery<
 	TQueryFnData = unknown,
@@ -105,7 +107,7 @@ export function useQuery<
 	queryKey: TQueryKey,
 	queryFn: QueryFunction<TQueryFnData, TQueryKey>,
 	options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn'>
-): UseQueryResult<TData, TError>;
+): UseQueryStoreResult<TData, TError>;
 
 export function useQuery<
 	TQueryFnData,
@@ -118,7 +120,7 @@ export function useQuery<
 		| QueryFunction<TQueryFnData, TQueryKey>
 		| UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
 	arg3?: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>
-): UseQueryResult<TData, TError> {
+): UseQueryStoreResult<TData, TError> {
 	const parsedOptions = parseQueryArgs(arg1, arg2, arg3);
 	const result = useBaseQuery(parsedOptions, QueryObserver);
 	return result;
