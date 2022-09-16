@@ -1,20 +1,13 @@
-import { afterUpdate } from 'svelte';
-import { readable, type Readable } from 'svelte/store';
+import { readable, type Readable, derived } from 'svelte/store';
 import {
 	type MutationFunction,
 	type MutationKey,
-	type MutationObserverResult,
 	MutationObserver,
 	notifyManager,
 	parseMutationArgs
 } from '@tanstack/query-core';
-import type {
-	UseMutateFunction,
-	UseMutationOptions,
-	UseMutationResult,
-	MutationStoreResult
-} from '$lib/types.js';
-import { useQueryClient } from '$lib/queryClientProvider/useQueryClient.js';
+import type { UseMutateFunction, UseMutationOptions, MutationStoreResult } from '$lib/types.js';
+import { useQueryClient } from '$lib/queryClient/useQueryClient.js';
 
 export function useMutation<
 	TData = unknown,
@@ -76,37 +69,26 @@ export function useMutation<
 ): MutationStoreResult<TData, TError, TVariables, TContext> {
 	const options = parseMutationArgs(arg1, arg2, arg3);
 	const queryClient = useQueryClient();
-	const observer = new MutationObserver(queryClient, options);
+	let observer = new MutationObserver<TData, TError, TVariables, TContext>(queryClient, options);
+	let mutate: UseMutateFunction<TData, TError, TVariables, TContext>;
 
-	const mutate: UseMutateFunction<TData, TError, TVariables, TContext> = (
-		variables,
-		mutateOptions
-	) => {
-		observer.mutate(variables, mutateOptions).catch(noop);
-	};
-	const initialResult = observer.getCurrentResult();
-	const initialMutationResult: UseMutationResult<TData, TError, TVariables, TContext> = {
-		...initialResult,
-		mutate,
-		mutateAsync: initialResult.mutate
-	};
-
-	const { subscribe } = readable(initialMutationResult, (set) => {
-		return observer.subscribe(
-			notifyManager.batchCalls(
-				(result: MutationObserverResult<TData, TError, TVariables, TContext>) => {
-					// Check if the component is still mounted
-					if (observer.hasListeners()) {
-						set({ ...result, mutate, mutateAsync: result.mutate });
-					}
-				}
-			)
-		);
-	});
-
-	afterUpdate(() => {
+	readable(observer).subscribe(($observer) => {
+		observer = $observer;
+		mutate = (variables, mutateOptions) => {
+			observer.mutate(variables, mutateOptions).catch(noop);
+		};
 		observer.setOptions(options);
 	});
+
+	let result = readable(observer.getCurrentResult(), (set) => {
+		return observer.subscribe(notifyManager.batchCalls((result) => set(result)));
+	});
+
+	const { subscribe } = derived(result, ($result) => ({
+		...$result,
+		mutate,
+		mutateAsync: $result.mutate
+	}));
 
 	return { subscribe };
 }

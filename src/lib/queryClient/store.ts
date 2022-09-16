@@ -5,11 +5,11 @@ import { readable, writable } from 'svelte/store';
 const queryCache = new QueryCache();
 const mutationCache = new MutationCache();
 const defaultOptions: DefaultOptions = {};
-const client = new QueryClient({
+const queryClient = new QueryClient({
 	queryCache,
 	mutationCache,
 	defaultOptions
 });
 
-export const clientStore = readable<QueryClient>(client);
-export const clientSharingStore = writable<boolean>(false);
+export const client = readable<QueryClient>(queryClient);
+export const clientSharing = writable<boolean>(false);

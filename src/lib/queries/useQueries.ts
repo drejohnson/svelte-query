@@ -4,7 +4,7 @@ import { notifyManager, QueriesObserver } from '@tanstack/query-core';
 import { readable, type Readable } from 'svelte/store';
 
 import type { UseQueryOptions, UseQueryResult } from '$lib/types.js';
-import { useQueryClient } from '$lib/queryClientProvider/useQueryClient.js';
+import { useQueryClient } from '$lib/queryClient/useQueryClient.js';
 import { afterUpdate } from 'svelte';
 
 // This defines the `UseQueryOptions` that are accepted in `QueriesOptions` & `GetOptions`.
@@ -144,16 +144,17 @@ export function useQueries<T extends any[]>(
 	}
 
 	const defaultedQueries = getDefaultQuery(queries);
-	const observer = new QueriesObserver(client, defaultedQueries);
+	let observer = new QueriesObserver(client, defaultedQueries);
 
-	const { subscribe } = readable(observer.getOptimisticResult(defaultedQueries) as any, (set) => {
-		return observer.subscribe(notifyManager.batchCalls(set));
-	});
-
-	afterUpdate(() => {
+	readable(observer).subscribe(($observer) => {
+		observer = $observer;
 		// Do not notify on updates because of changes in the options because
 		// these changes should already be reflected in the optimistic result.
 		observer.setQueries(defaultedQueries, { listeners: false });
+	});
+
+	const { subscribe } = readable(observer.getOptimisticResult(defaultedQueries) as any, (set) => {
+		return observer.subscribe(notifyManager.batchCalls(set));
 	});
 
 	return { subscribe };

@@ -6,7 +6,7 @@ import {
 	notifyManager
 } from '@tanstack/query-core';
 import { type Readable, readable } from 'svelte/store';
-import { useQueryClient } from '$lib/queryClientProvider/useQueryClient.js';
+import { useQueryClient } from '$lib/queryClient/useQueryClient.js';
 
 export function useIsFetching(filters?: QueryFilters): Readable<number>;
 export function useIsFetching(queryKey?: QueryKey, filters?: QueryFilters): Readable<number>;
