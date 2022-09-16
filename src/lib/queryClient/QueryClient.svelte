@@ -8,10 +8,10 @@
 
 	onMount(() => {
 		$client.mount();
-	});
 
-	onDestroy(() => {
-		$client.unmount();
+		return () => {
+			$client.unmount();
+		};
 	});
 </script>
 
