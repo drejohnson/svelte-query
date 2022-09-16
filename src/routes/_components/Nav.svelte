@@ -26,6 +26,11 @@
 					<li><a href="/basic" class:selected={path === 'basic'}>Basic</a></li>
 					<li><a href="/infinite" class:selected={path === 'infinite'}>Infinite</a></li>
 					<li><a href="/optimistic" class:selected={path === 'optimistic'}>Optimistic</a></li>
+					<li>
+						<a href="/auto-refetching" class:selected={path === 'auto-refetching'}
+							>Auto Refetching</a
+						>
+					</li>
 				</ul>
 			</li>
 		</ul>

@@ -1,11 +1,19 @@
 <script lang="ts">
-	// @ts-ignore
-	import { useQuery } from '$lib/query/useQuery';
+	import { useQuery } from '$lib/query/useQuery.js';
 
-	const queryResult = useQuery(['repoData'], async () => {
-		const res = await fetch('https://api.github.com/repos/SvelteStack/svelte-query');
-		return await res.json();
-	});
+	type Repo = {
+		name: string;
+		description: string;
+		subscribers_count: number;
+		stargazers_count: number;
+		forks_count: number;
+	};
+
+	const queryResult = useQuery<Repo, Error>(
+		['repoData'],
+		async () =>
+			await fetch('https://api.github.com/repos/SvelteStack/svelte-query').then((r) => r.json())
+	);
 </script>
 
 <section class="px-4">
@@ -13,10 +21,12 @@
 	<div class="my-4">
 		{#if $queryResult.isLoading}
 			Loading...
-		{:else if $queryResult.error}
+		{/if}
+		{#if $queryResult.error}
 			An error has occurred:
 			{$queryResult.error.message}
-		{:else}
+		{/if}
+		{#if $queryResult.isSuccess}
 			<div>
 				<h1>{$queryResult.data.name}</h1>
 				<p>{$queryResult.data.description}</p>

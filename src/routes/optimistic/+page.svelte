@@ -1,68 +1,74 @@
 <script lang="ts">
-	import { default as axios, AxiosError } from 'axios';
 	import { useQuery } from '$lib/query/useQuery.js';
 	import { useMutation } from '$lib/mutation/useMutation.js';
-	import { clientStore } from '$lib/queryClientProvider/store.js';
-	import OpimisticUpdates from '../_components/OpimisticUpdates.svelte';
-	// import IsFetching from '$lib/isFetching/IsFetching.svelte';
+	import { useQueryClient } from '$lib/index.js';
+
+	type Todo = {
+		id: string;
+		text: string;
+	};
 
 	type Todos = {
-		items: readonly {
-			id: string;
-			text: string;
-		}[];
+		items: readonly Todo[];
 		ts: number;
 	};
 
 	let text: string;
 
-	async function fetchTodos(): Promise<Todos> {
-		const { data } = await axios.get('http://localhost:5173/api/data');
-		return data;
-	}
+	const client = useQueryClient();
+
+	const endpoint = 'http://localhost:5173/api/data';
+
+	const fetchTodos = async (): Promise<Todos> => await fetch(endpoint).then((r) => r.json());
+
+	const createTodo = async (text: string): Promise<Todo> =>
+		await fetch(endpoint, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				text
+			})
+		}).then((res) => res.json());
 
 	function useTodos() {
-		return useQuery(['todos'], fetchTodos);
+		return useQuery<Todos, Error>(['optimistic'], fetchTodos);
 	}
 
 	const todos = useTodos();
 
-	$: console.log($todos);
+	const addTodoMutation = useMutation(createTodo, {
+		// When mutate is called:
+		onMutate: async (newTodo: string) => {
+			text = '';
+			// Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+			await client.cancelQueries(['optimistic']);
 
-	const addTodoMutation = useMutation(
-		(newTodo: string) => axios.post('http://localhost:5173/api/data', { text: newTodo }),
-		{
-			// When mutate is called:
-			onMutate: async (newTodo: string) => {
-				text = '';
-				// Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-				await $clientStore.cancelQueries(['todos']);
+			// Snapshot the previous value
+			const previousTodos = client.getQueryData<Todos>(['optimistic']);
 
-				// Snapshot the previous value
-				const previousTodos = $clientStore.getQueryData<Todos>(['todos']);
-
-				// Optimistically update to the new value
-				if (previousTodos) {
-					$clientStore.setQueryData<Todos>(['todos'], {
-						...previousTodos,
-						items: [...previousTodos.items, { id: Math.random().toString(), text: newTodo }]
-					});
-				}
-
-				return { previousTodos };
-			},
-			// If the mutation fails, use the context returned from onMutate to roll back
-			onError: (err: any, variables: any, context: any) => {
-				if (context?.previousTodos) {
-					$clientStore.setQueryData<Todos>(['todos'], context.previousTodos);
-				}
-			},
-			// Always refetch after error or success:
-			onSettled: () => {
-				$clientStore.invalidateQueries(['todos']);
+			// Optimistically update to the new value
+			if (previousTodos) {
+				client.setQueryData<Todos>(['optimistic'], {
+					...previousTodos,
+					items: [...previousTodos.items, { id: Math.random().toString(), text: newTodo }]
+				});
 			}
+
+			return { previousTodos };
+		},
+		// If the mutation fails, use the context returned from onMutate to roll back
+		onError: (err: any, variables: any, context: any) => {
+			if (context?.previousTodos) {
+				client.setQueryData<Todos>(['optimistic'], context.previousTodos);
+			}
+		},
+		// Always refetch after error or success:
+		onSettled: () => {
+			client.invalidateQueries(['optimistic']);
 		}
-	);
+	});
 </script>
 
 <p>
@@ -71,8 +77,6 @@
 	with the true items from the list. Every now and then, the mutation may fail though. When that
 	happens, the previous list of items is restored and the list is again refetched from the server.
 </p>
-
-<!-- <OpimisticUpdates /> -->
 
 <form
 	on:submit={(e) => {

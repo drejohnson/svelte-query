@@ -1,17 +1,13 @@
 <script lang="ts">
 	import { useQuery } from '$lib/query/useQuery.js';
 
-	import { default as axios, AxiosError } from 'axios';
-
 	export let postId: number;
 	export let setPostId: (id: number) => void;
 
-	const getPostById = async (id: number) => {
-		const { data } = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
-		return data;
-	};
+	const getPostById = async (id: number) =>
+		await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`).then((r) => r.json());
 
-	const post = useQuery<{ title: string; body: string }, AxiosError>(
+	const post = useQuery<{ title: string; body: string }, Error>(
 		['post', postId],
 		() => getPostById(postId),
 		{
@@ -24,11 +20,13 @@
 	<div>
 		<button class="btn btn-primary" on:click={() => setPostId(-1)}> Back </button>
 	</div>
-	{#if !postId || $post.status === 'loading'}
+	{#if !postId || $post.isLoading}
 		<span>Loading...</span>
-	{:else if $post.status === 'error'}
+	{/if}
+	{#if $post.error}
 		<span>Error: {$post.error.message}</span>
-	{:else}
+	{/if}
+	{#if $post.isSuccess}
 		<h1>{$post.data.title}</h1>
 		<div>
 			<p>{$post.data.body}</p>

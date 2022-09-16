@@ -1,13 +1,10 @@
 <script lang="ts">
-	import { default as axios, AxiosError } from 'axios';
 	import { useInfiniteQuery } from '$lib/infiniteQuery/useInfiniteQuery.js';
 
 	const endPoint = 'https://swapi.dev/api';
 
-	const fetchPlanets = async ({ pageParam = 1 }) => {
-		const { data } = await axios.get(`${endPoint}/planets/?page=${pageParam}`);
-		return data;
-	};
+	const fetchPlanets = async ({ pageParam = 1 }) =>
+		await fetch(`${endPoint}/planets/?page=${pageParam}`).then((r) => r.json());
 
 	const queryOptions = {
 		queryKey: 'planets',
@@ -30,11 +27,13 @@
 	const { error }: { error: any } = $queryResult;
 </script>
 
-{#if $queryResult.status === 'loading'}
+{#if $queryResult.isLoading}
 	Loading...
-{:else if $queryResult.status === 'error'}
+{/if}
+{#if $queryResult.error}
 	<span>Error: {error.message}</span>
-{:else}
+{/if}
+{#if $queryResult.isSuccess}
 	<div>
 		{#each $queryResult.data.pages as { results }}
 			{#each results as planet}

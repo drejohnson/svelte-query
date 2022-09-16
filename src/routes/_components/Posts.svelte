@@ -1,30 +1,27 @@
 <script lang="ts">
-	import { useQueryClient } from '$lib/queryClientProvider/useQueryClient.js';
+	import { useQueryClient } from '$lib/queryClient/useQueryClient.js';
 	import { useQuery } from '$lib/query/useQuery.js';
-	import { default as axios, AxiosError } from 'axios';
+	import { getPosts, limit } from './data.js';
 
 	export let setPostId: (id: number) => void;
 
-	async function getPosts() {
-		const { data } = await axios.get('https://jsonplaceholder.typicode.com/posts');
-		return data;
-	}
-
 	const client = useQueryClient();
 
-	const posts = useQuery<{ id: number; title: string; body: string }[], AxiosError>(
-		['posts'],
-		getPosts
+	const posts = useQuery<{ id: number; title: string; body: string }[], Error>(
+		['posts', limit],
+		() => getPosts(limit)
 	);
 </script>
 
 <div>
 	<div>
-		{#if $posts.status === 'loading'}
+		{#if $posts.isLoading}
 			<span>Loading...</span>
-		{:else if $posts.status === 'error'}
+		{/if}
+		{#if $posts.error}
 			<span>Error: {$posts.error.message}</span>
-		{:else}
+		{/if}
+		{#if $posts.isSuccess}
 			<ul>
 				{#each $posts.data as post}
 					<article class="flex items-start py-4">
