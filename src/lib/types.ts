@@ -53,19 +53,10 @@ export interface UseInfiniteQueryStoreResult<
 	TData = TQueryFnData
 > extends Readable<UseInfiniteQueryResult<TData, TError>> {}
 
-export type UseQueryReturnType<
-	TData,
-	TError,
-	Result = QueryObserverResult<TData, TError>
-> = Readable<Result>;
-
 export type UseBaseQueryResult<TData = unknown, TError = unknown> = QueryObserverResult<
 	TData,
 	TError
 >;
-
-export interface BaseQueryStoreResult<TData = unknown, TError = unknown>
-	extends Readable<UseBaseQueryResult<TData, TError>> {}
 
 export type UseQueryResult<TData = unknown, TError = unknown> = UseBaseQueryResult<TData, TError>;
 
