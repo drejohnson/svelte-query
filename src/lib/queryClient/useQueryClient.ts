@@ -1,17 +1,11 @@
 import type { QueryClient } from '@tanstack/query-core';
-import { client } from '$lib/queryClient/store.js';
+import { getQueryClientContext } from '$lib/context.js';
 
 export function useQueryClient(): QueryClient {
-	let queryClient!: QueryClient;
-	client.subscribe((client) => {
-		queryClient = client;
-		client.mount();
-		return () => {
-			client.mount();
-		};
-	});
+	const queryClient = getQueryClientContext();
+
 	if (!queryClient) {
-		throw new Error('No QueryClient set, use QueryClientProvider to set one');
+		throw new Error('No QueryClient set, use QueryClient component to set one');
 	}
 	return queryClient;
 }

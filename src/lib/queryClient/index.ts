@@ -1,2 +1,2 @@
+export { default as QueryClient } from '$lib/queryClient/QueryClient.svelte';
 export * from '$lib/queryClient/useQueryClient.js';
-export * from '$lib/queryClient/store.js';

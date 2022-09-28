@@ -1,16 +1,30 @@
 <script lang="ts">
-	import { setContext, onMount, onDestroy } from 'svelte';
-	import type { QueryClient } from '@tanstack/query-core';
-	import { client, clientSharing } from '$lib/queryClient/store.js';
+	import { onMount } from 'svelte';
+	import {
+		QueryClient,
+		QueryCache,
+		MutationCache,
+		type DefaultOptions
+	} from '@tanstack/query-core';
+	import { setQueryClientContext } from '$lib/context.js';
 
-	setContext<QueryClient>('queryClient', $client);
-	setContext<boolean>('queryClientSharing', $clientSharing);
+	// Props with default values
+	const queryCache = new QueryCache();
+	const mutationCache = new MutationCache();
+	const defaultOptions: DefaultOptions = {};
+	const client = new QueryClient({
+		queryCache,
+		mutationCache,
+		defaultOptions
+	});
+
+	setQueryClientContext(client);
 
 	onMount(() => {
-		$client.mount();
+		client.mount();
 
 		return () => {
-			$client.unmount();
+			client.unmount();
 		};
 	});
 </script>
