@@ -11,13 +11,7 @@
 
 <Nav {path} />
 
-<!-- The QueryClient Component really isn't need since the client is a reactive store -->
-<!-- and can be passed to any component via useQueryClient -->
 <QueryClient>
-	<!-- Hydration is being use for posts in the /basic route  -->
-	<!-- Check page source to see hydrated/ssr posts  -->
-	<!-- Like QueryClient the Hydrate component should be needed -->
-	<!-- You can invoke useHydrate above and get hydration -->
 	<Hydrate state={$dehydratedState}>
 		<main class="m-2">
 			<slot />
